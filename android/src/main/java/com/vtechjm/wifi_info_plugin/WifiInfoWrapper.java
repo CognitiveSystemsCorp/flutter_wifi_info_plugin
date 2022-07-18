@@ -20,11 +20,11 @@ public class WifiInfoWrapper {
 
     private Context context;
     private WifiInfo wifiInfo;
-
+    public Boolean connection;
     public WifiInfoWrapper(Context context) {
 
         this.context = context;
-        init(context);
+        this.connection = init(context);
     }
 
 
@@ -80,22 +80,37 @@ public class WifiInfoWrapper {
     }
 
     String getBssId() {
+        if (wifiInfo == null) {
+            return "missing";
+        }
         return wifiInfo.getBSSID();
     }
 
     String getSSID() {
+        if (wifiInfo == null) {
+            return "missing";
+        }
         return wifiInfo.getSSID();
     }
 
     public boolean getHiddenSSID() {
+        if (wifiInfo == null) {
+            return false;
+        }
         return wifiInfo.getHiddenSSID();
     }
 
     int getLinkSpeedMbps() {
+        if (wifiInfo == null) {
+            return 0;
+        }
         return wifiInfo.getLinkSpeed();
     }
 
     int getFrequency() {
+        if (wifiInfo == null) {
+            return 0;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return wifiInfo.getFrequency();
         } else {
@@ -104,7 +119,9 @@ public class WifiInfoWrapper {
     }
 
     int getSignalStrength() {
-
+        if (wifiInfo == null) {
+            return 0;
+        }
         int level = WifiManager.calculateSignalLevel(wifiInfo.getRssi(), 10);
         int percentage = (int) ((level / 10.0) * 100);
         return level;
@@ -112,6 +129,9 @@ public class WifiInfoWrapper {
     }
 
     int getNetworkId() {
+        if (wifiInfo == null) {
+            return 0;
+        }
         return wifiInfo.getNetworkId();
     }
 
