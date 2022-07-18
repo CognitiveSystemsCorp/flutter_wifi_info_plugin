@@ -42,7 +42,6 @@ public class WifiInfoPlugin implements MethodCallHandler {
 
             }
             case "getWifiDetails": {
-
                 Map<String, Object> data = new HashMap();
                 data.put("SSID", wifiWrapper.getSSID());
                 data.put("BSSID", wifiWrapper.getBssId());
