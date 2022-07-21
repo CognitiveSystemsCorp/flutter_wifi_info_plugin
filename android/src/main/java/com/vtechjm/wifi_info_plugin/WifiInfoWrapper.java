@@ -3,6 +3,8 @@ package com.vtechjm.wifi_info_plugin;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.Network;
 import android.net.DhcpInfo;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -168,12 +170,13 @@ public class WifiInfoWrapper {
     String getNetworkConnectionType() {
         String networkType = "unknown";
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if (activeNetwork != null) {
-            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+        Network activeNetwork = cm.getActiveNetwork();
+        NetworkCapabilities networkCapabilities = cm.getNetworkCapabilities(activeNetwork);
+        if (networkCapabilities != null) {
+            if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
                 networkType = "Wifi";
                 return networkType;
-            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+            } else if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
                 networkType = "Mobile data";
                 return networkType;
             }
